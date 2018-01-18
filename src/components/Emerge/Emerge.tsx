@@ -1,13 +1,15 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
+import 'intersection-observer';
+import Observer from 'react-intersection-observer';
+
 export interface IEmergeProps {
   if? : boolean;
   enter? : string;
   exit? : string;
   delay? : number;
   overflow? : boolean;
-  children? : any;
   className? : string;
   style? : Array<string>;
 }
@@ -17,7 +19,7 @@ export default class Emerge extends React.Component<IEmergeProps, {}> {
     public static defaultProps = {
       if: true,
       enter : 'fadeInUp',
-      exit : 'fadeOutDown',
+      exit : 'fadeOutDown', 
       delay: 300,
       overflow: false
     }
@@ -72,9 +74,10 @@ export default class Emerge extends React.Component<IEmergeProps, {}> {
       });
 
       return (
-        <span className={emergeClass} ref="element">
-          {newChildren}
-        </span>
+        <Observer>
+        {(inView)=> inView ? <span className={emergeClass} ref="element">{newChildren}</span> : null}
+  </Observer>
+        
       );
     }
 }

@@ -91,6 +91,8 @@ export interface ITableProps {
     onSearchChange?: (term: string) => void;
     headerTemplate?: () => void;
     serverSide?: boolean;
+    disableSelectedElements?: Array<any>;
+    fill?: boolean;
 } 
 
 interface ITableState {
@@ -102,7 +104,9 @@ class Table extends React.Component<ITableProps, ITableState>{
     public static defaultProps = {
         showDataSourceLength: true,
         title: 'items',
-        portal: false
+        portal: false,
+        disableSelectedElements: [],
+        scrollY : true
     }
 
     render() {
@@ -111,6 +115,7 @@ class Table extends React.Component<ITableProps, ITableState>{
         const props = self.props;
 
         let {
+            disableSelectedElements,
             searchValue,
             selectedKey,
             filterOpenDetailTemplate,
@@ -191,7 +196,8 @@ class Table extends React.Component<ITableProps, ITableState>{
             filterOpenDetailTemplate: filterOpenDetailTemplate,
             serverSide,
             id,
-            portal
+            portal,
+            disableSelectedElements
         }
 
         let headProps = {
@@ -245,6 +251,7 @@ class Table extends React.Component<ITableProps, ITableState>{
         let tableClass = classNames(
             'r-Table',
             { 'e-flex': (props.flex) },
+            { 'e-fill': (props.fill) },
             { 'e-selectable': (!!props.rowIsSelectable) },
             { 'e-selectable': (detailTemplateOpenOnRowSelect === true || detailTemplateOpenOnRowSelect === 'single') },
             props.className
@@ -260,7 +267,7 @@ class Table extends React.Component<ITableProps, ITableState>{
                     {headerTemplate ? headerTemplate : null}
                     <TableSearch {...tableSearchProps} />
                     {menuTemplate ? menuTemplate() : null}
-                    <Layer tabIndex={-1} scrollY theme="light" scrollToId={scrollToId} scrollIf={scrollIf} fill style={contentMaxHeight ? { height: contentMaxHeight } : null}>
+                    <Layer tabIndex={-1} scrollY={true} theme="light" scrollToId={scrollToId} scrollIf={scrollIf} fill style={contentMaxHeight ? { height: contentMaxHeight } : null}>
                         {
                             nothingMatchesSearchCriteria ?
                                 <Emerge className="e-fill">

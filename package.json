@@ -1,6 +1,6 @@
 {
   "name": "@cubex/recoil",
-  "version": "0.5.3",
+  "version": "0.5.46",
   "description": "Powerful react powered front-end framework.",
   "author": "Joseph Isaac <josephisaac89@gmail.com>",
   "repository": {
@@ -15,13 +15,15 @@
     "lib": "src/"
   },
   "scripts": {
-    "prepublishOnly": "tsc --declaration",
+    "clean": "rimraf ./dist",
+    "prepublishOnly": "rimraf ./dist && tsc --declaration",
     "tsc": "tsc",
     "build": "webpack --config webpack.config.js --progress",
     "watch": "webpack --config webpack.config.js --watch --progress"
   },
   "dependencies": {
-    "classnames": "2.2.5"
+    "classnames": "2.2.5",
+    "intersection-observer": "0.5.0"
   },
   "peerDependencies": {
     "react": "16.0.0",
@@ -36,6 +38,7 @@
     "eslint-plugin-react": "7.4.0",
     "extract-text-webpack-plugin": "3.0.0",
     "history": "^4.7.2",
+    "intersection-observer": "^0.5.0",
     "json-loader": "0.5.7",
     "less": "^2.7.2",
     "less-loader": "4.0.5",
@@ -44,7 +47,9 @@
     "react": "16.0.0",
     "react-dom": "16.0.0",
     "react-hot-loader": "1.3.1",
+    "react-intersection-observer": "^2.1.1",
     "react-router": "^4.2.0",
+    "rimraf": "2.6.2",
     "style-loader": "0.18.2",
     "ts-loader": "2.3.7",
     "typescript": "2.5.3",

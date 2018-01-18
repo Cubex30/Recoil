@@ -13,10 +13,16 @@ export interface IDataSourceProps extends ITableProps {
     dataSource?: Array<Object> | Array<number> | Array<string>;
     columns?: Array<IColumn>;
     emptyText: string;
+    loading?: boolean;
+    loadingText?: string;
 }
 
 const DataSource : any = (Component : JSX.Element) =>
     class Enhance extends React.Component<IDataSourceProps, any> {
+
+        public static defaultProps = {
+            emptyText: 'dataSource is empty'
+        }
 
         constructor(props : IDataSourceProps) {
             super(props);
@@ -89,8 +95,8 @@ const DataSource : any = (Component : JSX.Element) =>
             const props = self.props;
 
             let {dataSource} = props;
-
-            dataSource.length ? self.loadDataSource(dataSource) : self.loadDataSource([]);
+            
+            dataSource && Object.keys(dataSource).length || dataSource && dataSource.length ? self.loadDataSource(dataSource) : self.loadDataSource([]);
         }
 
         loadDataSource<T>(dataSource : Array<T>) {
@@ -208,19 +214,21 @@ const DataSource : any = (Component : JSX.Element) =>
             let columnsArray: Array<any>;
 
             // columns are defined
-            if (columns) {
-                columnsArray = columns;
-            }
-            // else automatically create them
-            else {
-                columnsArray = [];
-
-                if (isArray) {
-                    columnsArray.push({ name: '_Array' });
-                } else {
-                    Object.keys(dataSource[0]).map((key) => {
-                        columnsArray.push({ name: key })
-                    })
+            if (dataSource.length > 0){
+                if (columns) {
+                    columnsArray = columns;
+                }
+                // else automatically create them
+                else {
+                    columnsArray = [];
+    
+                    if (isArray) {
+                        columnsArray.push({ name: '_Array' });
+                    } else {
+                        Object.keys(dataSource[0]).map((key) => {
+                            columnsArray.push({ name: key })
+                        })
+                    }
                 }
             }
 
@@ -378,10 +386,11 @@ const DataSource : any = (Component : JSX.Element) =>
         }
 
         previousPage() {
+            let pageNumber = this.state.page;
             this.props.onPageChange ? this.props.onPageChange(this.state.page - 1) : null;
             if (!this.props.serverSide) {
                 this.setState({
-                    page: this.state.page -= 1
+                    page: pageNumber -= 1
                 }, () => {
                     this.renderActiveRows(this.state.dataSource);
                 })
@@ -389,8 +398,9 @@ const DataSource : any = (Component : JSX.Element) =>
         }
 
         nextPage() {
+            let pageNumber = this.state.page;
             this.setState({
-                page: this.state.page += 1
+                page: pageNumber += 1
             }, () => {
                 this.renderActiveRows(this.state.dataSource);
                 this.props.onPageChange ? this.props.onPageChange(this.state.page) : null
@@ -485,7 +495,16 @@ const DataSource : any = (Component : JSX.Element) =>
                 filterItems: this.filterItems.bind(this),
             }
 
-            if ((activeRows.length || dataSource.length) && columns.length) {
+            if (props.loading) {
+                return (
+                    <Emerge className="e-fill">
+                        <Toolbar block textCenter>
+                            <Button loading={true} block size="large" simple>{props.loadingText}</Button>
+                        </Toolbar> 
+                    </Emerge>  
+                )
+            }
+            else if ((activeRows.length || dataSource.length) && columns && columns.length) {
                 const newProps = Object.assign({}, props, self.state, renderedObject);
                 // clone the original component and add the new props
                 const updatedComponent = React.cloneElement(Component, newProps, Component.props);
@@ -494,7 +513,7 @@ const DataSource : any = (Component : JSX.Element) =>
             } else {
                 return (
                     <Emerge className="e-fill">
-                        <Toolbar block textCenter className="ptb20">
+                        <Toolbar block textCenter>
                             <Button block size="large" simple>{props.emptyText}</Button>
                         </Toolbar> 
                     </Emerge>  

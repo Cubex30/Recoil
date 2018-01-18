@@ -2,8 +2,10 @@ import * as React from 'react';
 import * as classNames from 'classnames';
 
 import Button from '../Button/Button';
-import {IButtonProps} from '../Button/Button';
+import { IButtonProps } from '../Button/Button';
 import { ITableProps } from '../Table/Table';
+
+import Tags from '../Tags/Tags';
 
 import DropdownContent from './DropdownContent';
 
@@ -19,17 +21,18 @@ export interface IDropdownProps extends IButtonProps, ITableProps {
     type?: string;
     material?: boolean;
     dropDirection?: string;
-    onChange ? : (element ? : Array<Object>, key ? : string | number, selectedElements?: Array<Object>, id? : string) => void;
+    onChange?: (element?: Array<Object>, key?: string | number, selectedElements?: Array<Object>, id?: string) => void;
     fixedClose?: boolean;
     mobile?: boolean;
     open?: boolean;
-    onOpen?: (boolean: boolean)=> void;
-    onClose?: (boolean: boolean)=> void;
+    onOpen?: (boolean: boolean) => void;
+    onClose?: (boolean: boolean) => void;
     hideDropdownHeader?: boolean;
     titleKey?: string;
     disabled?: boolean;
     parentId?: any;
     hideRoot?: boolean;
+    tagSelected?: boolean;
 }
 
 export interface State {
@@ -56,11 +59,11 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
     constructor(props: IDropdownProps) {
         super(props);
         this.state = {
-            dropdownIsOpen: false,
+            dropdownIsOpen: props.open || false,
             type: props.dataSource && props.type !== 'tree' ? "table" : props.type,
             selectedElements: props.selectedElements || [],
-            scrollToId: '',
-            title : props.title || ''
+            scrollToId: props.scrollToId || '',
+            title: props.title || ''
         }
     }
 
@@ -70,12 +73,20 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
                 type: nextProps.type
             })
         }
-        if (nextProps.open !== this.state.dropdownIsOpen) {
+        if (!this.props.loading && nextProps.open !== this.state.dropdownIsOpen) {
+                this.setState({
+                    dropdownIsOpen: nextProps.open
+                },
+                    () => {
+                        this.props.onOpen && this.state.dropdownIsOpen === true ? this.props.onOpen(true) : null;
+                        this.props.onClose && this.state.dropdownIsOpen === false ? this.props.onOpen(false) : null;
+                    })
+        }
+        if (nextProps.scrollToId !== this.state.scrollToId) {
             this.setState({
-                dropdownIsOpen: nextProps.open
+                scrollToId: nextProps.scrollToId
             })
         }
-
         if (nextProps.selectedElements !== this.state.selectedElements) {
             this.setState({
                 selectedElements: nextProps.selectedElements
@@ -92,7 +103,7 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             dropdownIsOpen: false
         },
             () => {
-                this.props.onOpen ? this.props.onOpen(false) : null;
+                this.props.onClose ? this.props.onClose(false) : null;
             })
     }
     openDropdown() {
@@ -102,18 +113,18 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             () => {
                 this.props.onOpen ? this.props.onOpen(true) : null;
             })
-        
+
     }
     onRowSelect(element: Array<any>, index: string | number, selectedElements: Array<any>, id: string) {
         let {rowIsSelectable } = this.props;
 
         this.setState({
-            selectedElements : selectedElements
-        }, ()=>{
+            selectedElements: selectedElements
+        }, () => {
             if (rowIsSelectable === 'single') {
 
                 this.setState({
-                    scrollToId : this.props.selectedKey ? element[this.props.titleKey ? this.props.titleKey : this.props.selectedKey] : null
+                    scrollToId: this.props.selectedKey ? element[this.props.titleKey ? this.props.titleKey : this.props.selectedKey] : null
                 })
 
                 this.closeDropdown();
@@ -122,7 +133,17 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
         })
 
     }
-    render() : JSX.Element  {
+
+    removeSelectedItem(item) {
+        function remove(array, element) {
+            return array.filter(e => e !== element);
+        }
+
+        this.setState({
+            selectedElements: remove(this.state.selectedElements, item)
+        })
+    }
+    render(): JSX.Element {
         const self = this;
         const props = self.props;
         let state = self.state;
@@ -151,6 +172,7 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             children,
 
             // Table
+            disableSelectedElements,
             dataSource,
             focusOnMount,
             hideHeader,
@@ -173,7 +195,8 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             sortKey,
             hideFooter,
             hideDropdownHeader,
-            hideRoot
+            hideRoot,
+            tagSelected
         } = props;
 
         let buttonProps = {
@@ -193,7 +216,7 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             loading,
             disabled,
             checkedTheme,
-            onClick: this.openDropdown.bind(this)
+            onClick: props.onClick || this.openDropdown.bind(this)
         }
 
         let dropdownPortalProps = {
@@ -207,6 +230,7 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             position: state.position,
             type: state.type,
             // Table
+            disableSelectedElements,
             dataSource,
             focusOnMount,
             hideHeader,
@@ -235,7 +259,7 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             scrollIf: this.state.dropdownIsOpen,
             //
             parentId: parentId,
-            hideRoot : hideRoot
+            hideRoot: hideRoot
         }
 
         let dropdownClass = classNames(
@@ -249,16 +273,33 @@ export default class Dropdown extends React.Component<IDropdownProps, any>{
             props.className
         );
 
-        return (
-            <div 
-                id={id} 
-                ref='dropdown' 
-                className={dropdownClass}
-            >
-                <Button {...buttonProps}>{title}</Button>
-                <DropdownContent {...dropdownPortalProps} />
-            </div>
-        )
+        let selectedTitle = rowIsSelectable === 'single' && this.state.selectedElements && this.state.selectedElements.length > 0 && !this.props.title ? this.state.selectedElements[0] : props.title
+
+        if (tagSelected) {
+            return (
+                <div className="dinblock" id={id}
+                    ref='dropdown'
+                >
+                    <Tags onRemove={this.removeSelectedItem.bind(this)} dataSource={this.state.selectedElements} />
+                    <div
+                        className={dropdownClass}
+                    >
+                        <Button {...buttonProps}>{selectedTitle}</Button>
+                        <DropdownContent {...dropdownPortalProps} />
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div id={id}
+                    ref='dropdown'
+                    className={dropdownClass}
+                >
+                    <Button {...buttonProps}>{selectedTitle}</Button>
+                    <DropdownContent {...dropdownPortalProps} />
+                </div>
+            )
+        }
     }
 }
 

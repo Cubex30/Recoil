@@ -10,16 +10,16 @@ export default class SelectMonth extends React.Component<any, any> {
         return (
             <Dropdown 
                 className="w100"
-                material 
-                block 
-                title={monthNames[month - 1]} 
-                selectedElements={[monthNames[month - 1]]}
+                material  
+                title={monthNames[month]} 
+                selectedElements={[monthNames[month]]}
                 rowIsSelectable="single"
                 onChange={selectMonth} 
                 dataSource={monthNames}
                 pageSize={monthNames.length}
                 hideHeader
                 hideDropdownHeader
+                scrollToId={monthNames[month]}
             />
         );
     }

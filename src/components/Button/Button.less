@@ -40,8 +40,8 @@
 
 .r-Button.primary:hover,
 .r-Button.primary:focus{
-  background:@primary--hover-background;
-  color: white;
+  background:@primary--hover-background !important;
+  color: white !important;
 }
 .r-Button.error:hover,
 .r-Button.error:focus{
@@ -56,9 +56,15 @@
   color:@link--hover-color;
   background: @link-background;
 }
+.r-Button.simple.primary,
+.r-Button.simple.primary{
+  background:transparent !important;
+  color: @primary-background !important;
+}
 .r-Button.simple.primary:hover,
 .r-Button.simple.primary:focus{
   background:transparent !important;
+  color: @default-color !important;
 }
 
 .r-Button.large{
@@ -78,7 +84,7 @@
 
 .r-Button.large{
   padding: 10px 2pc;
-  height: auto;
+  height: 40px;
 }
 
 .r-Button.xlarge{
@@ -109,14 +115,14 @@
 /* --ghost button */
 
 .r-Button.simple{
-  color: @default-color;
+  color: @default-color !important;
   background: transparent !important;
   border-color: transparent !important;
 }
 
 .r-Button.simple:hover{
-  background: transparent;
-  color: @primary-background;
+  background: transparent !important;
+  color: @primary-background !important;
 }
 
 /*Pointers*/
@@ -240,6 +246,7 @@ a, .r-Button{
 }
 
 .r-Button.outline.primary{
+  background: transparent !important;
   border-color:@primary-background !important;
   color:@primary-background !important;
 }

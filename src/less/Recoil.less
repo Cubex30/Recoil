@@ -5,13 +5,18 @@ html {
 }
 * {
 	box-sizing: border-box;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	// -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     margin:0;
     padding:0;
 }
 
 *:focus{
-	outline: 0;
+    outline: none;
+}
+
+button:focus,
+input:focus{
+    box-shadow: 0 0 3px @primary-background ;
 }
 
 body {
@@ -180,11 +185,15 @@ h3 {
 }
 .w100px {
 	max-width: 100% !important;
-	width: 100px;
+	width: 100px !important;
 }
 .w120px {
 	max-width: 100% !important;
-	width: 120px;
+	width: 120px !important;
+}
+.w150px {
+	max-width: 100% !important;
+	width: 150px !important;
 }
 .w200px {
 	max-width: 100% !important;
@@ -1577,29 +1586,29 @@ h1 {
 	font-weight: 200;
 }
 .border-all {
-	border: 1px solid @standard-border;
+	border: @standard-border;
 }
 .border-bottom {
-	border-bottom: 1px solid @standard-border;
+	border-bottom: @standard-border;
 }
 .border-top {
-	border-top: 1px solid @standard-border;
+	border-top: @standard-border;
 }
 .border-left {
-	border-left: 1px solid @standard-border;
+	border-left: @standard-border;
 }
 .border-right {
-	border-right: 1px solid @standard-border;
+	border-right: @standard-border;
 }
 
 .border-s {
-    border-left: 1px solid @standard-border;
-    border-right: 1px solid @standard-border;
+    border-left: @standard-border;
+    border-right: @standard-border;
 }
 
 .border-tb {
-    border-top: 1px solid @standard-border;
-    border-bottom: 1px solid @standard-border;
+    border-top: @standard-border;
+    border-bottom: @standard-border;
 }
 h4 {
 	font-weight: normal;
@@ -1609,10 +1618,21 @@ h4 {
 	white-space: nowrap;
 	word-break: break-word;
 }
+
+.material-icons {
+    font-size: inherit;
+    vertical-align: middle;
+}
+
 .super {
 	font-weight: 300;
 	font-size: 45px;
 	line-height: 55px;
+}
+.super-xl{
+	font-weight: 300;
+    font-size: 80px;
+    line-height: 80px;
 }
 h2 {
 	font-size: 30px;
@@ -1620,11 +1640,13 @@ h2 {
     line-height: 1.15;
     letter-spacing: -.015em;
 	color: @font-color;
+	font-weight: 400;
 }
 h3 {
 	font-weight: normal;
 	color: @font-color;
 	font-size: 18px;
+	font-weight: 400;
 }
 .t0 {
 	top: 0;
@@ -1900,6 +1922,10 @@ hr {
 .e-NightMode {
 	background: @nightMode-background !important;
 
+	.material-icons {
+		color: white;
+	}
+
     .r-Table>.r-Layer>table>thead {
     background: #20262d !important;
     }
@@ -1907,6 +1933,22 @@ hr {
     .r-Dropdown__header {
     border-bottom: 1px solid #171717 !important;
     background: #20262d !important;
+	}
+
+	.border-all {
+		border: 1px solid #171717 ;
+	}
+	.border-bottom {
+		border-bottom: 1px solid #171717 ;
+	}
+	.border-top {
+		border-top: 1px solid #171717 ;
+	}
+	.border-left {
+		border-left: 1px solid #171717 ;
+	}
+	.border-right {
+		border-right: 1px solid #171717;
 	}
 
 	.r-Input.checked .r-Input__container>small {
@@ -1955,9 +1997,6 @@ hr {
 		background: #333 !important;
 		border-color: #222 !important;
 	} 
-    .r-Button.simple.outline {
-        border-color: #2d2d2d!important;
-    }
 	.r-Checkbox.r-Button {
 		color: #585858 !important;
 	}
@@ -1968,7 +2007,7 @@ hr {
 		color: #999;
 	}
 	.border-top, .border-bottom, .border-left, .border-right {
-		border-color: #334;
+		border-color: #20262e;
 	}
 	/*.r-Button:hover, .r-Button:focus {
 		background: transparent !important;
@@ -1977,8 +2016,7 @@ hr {
 		color: #CECECE;
 	}
 	h1, h2, h3, h4, h5, h6 {
-		color: #bfc2c4 !important;
-		font-weight: normal;
+		color:#dcdcdc  !important;
 	}
 	h1{
 		color:#d1d5da !important;
@@ -2084,7 +2122,12 @@ hr {
 	.r-TableColumnDetail {
     	background: #20262e !important;
 	}
-
+    .r-Button.simple.outline {
+        border-color: #2d2d2d!important;
+    }
+	.r-Button.outline{
+		background: transparent!important;
+	}
 	.r-Checkbox i{
 		color: #909090 !important;
 	}

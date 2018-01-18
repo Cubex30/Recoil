@@ -84,20 +84,43 @@ export default class TutorialEmerge extends React.Component<any,any>{
     ]
     let example = () => {
       return (
-        <Emerge delay={300} if={props.if}>
-          <Button className="mr10">
-            A
-          </Button>
-          <Button className="mr10">
-            B
-          </Button>
-          <Button className="mr10">
-            C
-          </Button>
-          <Button className="">
-            D
-          </Button>
-        </Emerge>
+        <div>
+          <Emerge delay={300} if={props.if}>
+            <Button className="mr10">
+              Appear
+            </Button>
+            <Button className="mr10">
+              When
+            </Button>
+            <Button className="mr10">
+              In
+            </Button>
+            <Button className="">
+              View
+            </Button>
+          </Emerge>
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><Button simple icon="chevron-down">Scroll Down</Button><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+          <Layer oocss="h300px w400px">
+          <Emerge enter="slideInLeft">
+            <Layer theme="light" oocss="w500px h200px" border flexCenter>Appear</Layer>
+            <Layer theme="light" oocss="w500px h200px" border flexCenter>When</Layer>
+            <Layer theme="light" oocss="w500px h200px" border flexCenter>In</Layer>
+            <Layer theme="light" oocss="w500px h200px" border flexCenter>View</Layer>
+          </Emerge>
+          </Layer>
+          <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+          <Layer oocss="h408px w100%">
+          <Emerge enter="fadeInUpBig">
+            <Align>
+              <Layer theme="light" className="pull-left"  oocss="w200px h200px" border flexCenter>Appear</Layer>
+              <Layer theme="light" className="pull-left" oocss="w200px h200px" border flexCenter>When</Layer>
+              <Layer theme="light" className="pull-left" oocss="w200px h200px" border flexCenter>In</Layer>
+              <Layer theme="light" className="pull-left" oocss="w200px h200px" border flexCenter>View</Layer>
+            </Align>
+          </Emerge>
+          </Layer>
+        </div>
       )
     }
 

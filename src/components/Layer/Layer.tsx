@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as classNames from 'classnames';
 
+import {OOCSS} from '../OOCSS/OOCSS';
+
 import {IRecoil} from '../../index';
 
 export interface ILayerProps extends IRecoil{
@@ -12,7 +14,6 @@ export interface ILayerProps extends IRecoil{
   scrollX? : boolean;
   style? : Object;
   onClick?: () => void;
-  block? : boolean;
   key? : string | number;
   parent? : boolean;
   child? : boolean;
@@ -25,10 +26,13 @@ export interface ILayerProps extends IRecoil{
   scroll? : boolean;
   offset?: number;
   shadow?: boolean;
+  flex?: boolean;
   flexCenter?: boolean;
+  onScroll?: any;
+  id?: string;
 }
 
-export default class Layer extends React.Component<ILayerProps, any> {
+export class Layer extends React.Component<ILayerProps, any> {
 
   public _animate : any;
   public _beforeAnimate : () => void;
@@ -45,7 +49,8 @@ export default class Layer extends React.Component<ILayerProps, any> {
     left: false,
     right: false,
     border: '',
-    scrollIf: false
+    scrollIf: false,
+    flexCenter: false
   };
 
   constructor(props : ILayerProps) {
@@ -157,13 +162,6 @@ export default class Layer extends React.Component<ILayerProps, any> {
   render() {
     const self = this;
     const props = self.props;
-    let borderClass;
-
-    if (props.border) {
-      borderClass = 'border'+props.border;
-    } else {
-      borderClass = null;
-    }
 
     let dimensionStyle;
 
@@ -191,13 +189,13 @@ export default class Layer extends React.Component<ILayerProps, any> {
       { 'child': (props.child) },
       { 'e-shadow': (props.shadow) },
       { 'e-flex-center': (props.flexCenter) },
-      borderClass,
+      { 'border-all': (props.border) },
       props.theme,
       props.className
     );
 
     return(
-      <div tabIndex={props.tabIndex} ref="Layer" onClick={props.onClick} className={layerClass} style={Object.assign({},dimensionStyle, props.style)}>
+      <div id={props.id} onScroll={this.props.onScroll} tabIndex={props.tabIndex} ref="Layer" onClick={props.onClick} className={layerClass} style={Object.assign({},dimensionStyle, props.style)}>
         {props.children}
       </div>
     );
@@ -214,8 +212,8 @@ Math['easeInOutQuad'] = function (t: number, b: number, c: number, d: number) {
 };
 
 Math['easeInCubic'] = function(t: number, b: number, c: number, d: number) {
-  var tc = (t/=d)*t*t;
-  return b+c*(tc);
+	t /= d;
+	return c*t*t*t + b;
 };
 
 Math['inOutQuintic'] = function(t: number, b: number, c: number, d: number) {
@@ -246,7 +244,7 @@ function scrollTo(scrollTop : number, element : HTMLElement, to : number, durati
     // increment the time
     currentTime += increment;
     // find the value with the quadratic in-out easing function
-    var val = Math['easeInCubic'](currentTime, start, change, duration);
+    var val = Math['inOutQuintic'](currentTime, start, change, duration);
     // move the document.body
     move(val);
     // do the animation unless its over
@@ -256,3 +254,6 @@ function scrollTo(scrollTop : number, element : HTMLElement, to : number, durati
   };
   animateScroll();
 }
+
+
+export default OOCSS()(Layer);

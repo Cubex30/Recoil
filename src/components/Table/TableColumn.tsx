@@ -3,6 +3,8 @@ import Dropdown from '../Dropdown/Dropdown';
 import {IColumn} from './IColumn';
 import Button from '../Button/Button';
 
+import Shrink from '../Shrink/Shrink';
+
 export interface ITableDataProps {
     value ?: Array<any>;
     column?: IColumn;
@@ -59,13 +61,13 @@ export default class TableColumn extends React.Component<ITableDataProps,ITableD
         if (isArray) {
             return (
                 <td tabIndex={-1} id={element} style={{width : column.width}}>
-                    <Button size='small' simple>{element}</Button>
+                    {column.template ?  column.template(element) : <Button size='small' simple>{element}</Button>}
                 </td>
             )           
         } else if (type !== '' && !hideColumnsArrayIncludesEitherNameOrTitle) {
             return ( 
                 <td tabIndex={-1} id={value ? value.toString() : null} style={{width : column.width}}>
-                    {column.template ? column.template(element) : type === 'Value' ? <Button size='small' simple>{value}</Button> ? <Button size='small' simple>{value.toString()}</Button> : null : <Dropdown material dataSource={value} title={type} />}
+                    {column.template ? column.template(element) : type === 'Value' ? <Button size='small' simple>{value}</Button> ? <Button size='small' simple>{value.toString()}</Button> : null : <Dropdown className="r-Table-Dropdown" material dataSource={value} title={type} />}
                 </td>
             )
         } return null;

@@ -26,6 +26,7 @@ export interface IButtonProps extends IRecoil{
   required ? : boolean;
   id?: string;
   shortcut? : string;
+  materialIcon?: boolean;
 }
 
 export interface IButtonState {
@@ -70,10 +71,10 @@ export default class Button extends React.Component<IButtonProps, IButtonState>{
         progressiveClickLength: props.progressiveClick.length
       })
     }
-    if (props.shortcut) {
-       window.addEventListener("keydown", this.startShortcutListener.bind(this), false);
-       window.addEventListener("keyup", this.startShortcutListener.bind(this), false);
-    }
+    // if (props.shortcut) {
+    //    window.addEventListener("keydown", this.startShortcutListener.bind(this), false);
+    //    window.addEventListener("keyup", this.startShortcutListener.bind(this), false);
+    // }
    }
 
   public onClick(event: React.MouseEvent<MouseEvent>) {
@@ -113,12 +114,12 @@ export default class Button extends React.Component<IButtonProps, IButtonState>{
      }
   }
 
-  public componentWillUnmount() {
-    if (this.props.shortcut) {
-      window.removeEventListener("keydown", null, false);
-      window.removeEventListener("keyup", null, false);
-    }
-  }
+  // public componentWillUnmount() {
+  //   if (this.props.shortcut) {
+  //     window.removeEventListener("keydown", null, false);
+  //     window.removeEventListener("keyup", null, false);
+  //   }
+  // }
 
   render() {
 
@@ -161,7 +162,7 @@ export default class Button extends React.Component<IButtonProps, IButtonState>{
     }
 
     let selectablePartial = <Selectable type={props.checkedTheme} checked={props.checked ? true : false}></Selectable>;
-    let iconPartial = (props.icon && !props.loading ? <i className={'fa fa-'+props.icon}></i> : null );
+    let iconPartial = (props.icon && !props.loading ? props.materialIcon ? <i className={'material-icons'}>{props.icon}</i> : <i className={'fa fa-'+props.icon}></i> : null);
     let loadingPartial = (props.loading ? <i className={'fa fa-circle-o-notch fa-spin'+ (props.children ? ' mr10' : '')}></i> : null );
     let animatedIcon = (props.iconPointer && !props.loading ? <i className={"icon-pointer fa fa-caret-"+props.iconPointer} ></i> : null );
     let iconWrapperRight = (props.icon && props.iconLocation === 'right' && !this.state.showShortcut ? <div className={'icon-pointer-'+props.iconPointer+ " ml10 icon-wrapper " + (props.children ? "mr10" : "")}>{iconPartial}{props.iconPointer ? animatedIcon : null}</div> : null);
