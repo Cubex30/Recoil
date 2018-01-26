@@ -33,13 +33,82 @@ h3,
 h4,
 h5,
 h6 {
+    // display: inline-block;
+    vertical-align: middle;
     padding: 0;
     margin: 0;
 }
 
+h1 {
+    font-size: 20px;
+    color: @font-color;
+    display: block;
+    font-weight: 200;
+}
+
+h2 {
+    font-size: 30px;
+    margin-left: -1.88px;
+    line-height: 1.15;
+    letter-spacing: -.015em;
+    color: @font-color;
+    font-weight: 400;
+}
+
 h3 {
     font-weight: normal;
-    color: #666;
+    color: @font-color;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+h4 {
+    font-weight: normal;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.58;
+    letter-spacing: -.004em;
+    margin: 0;
+    color: @font-color-light;
+}
+
+iframe {
+    overflow: hidden !important;
+}
+
+.iframe {
+    border: 0 !important;
+}
+
+a {
+    color: @link-color;
+    text-decoration: none;
+    cursor: pointer;
+    letter-spacing: .010em;
+    line-height: 1.6em;
+    margin: 0;
+    font-weight: 400;
+}
+
+form {
+    margin: 0;
+    padding: 0;
+}
+
+hr {
+    width: 100%;
+    margin: 0;
+    /*background-image: -webkit-linear-gradient( left, @primary-background, #000, @primary-background);
+	-moz-animation: rainbowLine 5.5s forwards linear infinite;
+	-webkit-animation: rainbowLine 5.5s forwards linear infinite;
+	-o-animation: rainbowLine 5.5s forwards linear infinite;
+	animation: rainbowLine 5.5s forwards linear infinite;
+	background-size: 50% auto;*/
+    background-color: @primary-background;
+    height: 3px;
+    border: 0;
 }
 
 
@@ -2037,21 +2106,6 @@ h3 {
     max-width: 800px;
 }
 
-p {
-    font-size: 18px;
-    line-height: 1.58;
-    letter-spacing: -.004em;
-    margin: 0;
-    color: @font-color-light;
-}
-
-h1 {
-    font-size: 20px;
-    color: @font-color;
-    display: block;
-    font-weight: 200;
-}
-
 .border-all {
     border: @standard-border;
 }
@@ -2082,10 +2136,6 @@ h1 {
     border-bottom: @standard-border;
 }
 
-h4 {
-    font-weight: normal;
-}
-
 .text-overflow {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -2107,22 +2157,6 @@ h4 {
     font-weight: 300;
     font-size: 80px;
     line-height: 80px;
-}
-
-h2 {
-    font-size: 30px;
-    margin-left: -1.88px;
-    line-height: 1.15;
-    letter-spacing: -.015em;
-    color: @font-color;
-    font-weight: 400;
-}
-
-h3 {
-    font-weight: normal;
-    color: @font-color;
-    font-size: 18px;
-    font-weight: 400;
 }
 
 .t0 {
@@ -2224,24 +2258,6 @@ h3 {
     }
 }
 
-iframe {
-    overflow: hidden !important;
-}
-
-.iframe {
-    border: 0 !important;
-}
-
-a {
-    color: @link-color;
-    text-decoration: none;
-    cursor: pointer;
-    letter-spacing: .010em;
-    line-height: 1.6em;
-    margin: 0;
-    font-weight: 400;
-}
-
 .r0 {
     right: 0;
 }
@@ -2252,11 +2268,6 @@ a {
 
 .black {
     background-color: #111;
-}
-
-form {
-    margin: 0;
-    padding: 0;
 }
 
 .circle {
@@ -2400,20 +2411,6 @@ form {
     to {
         background-position: top right;
     }
-}
-
-hr {
-    width: 100%;
-    margin: 0;
-    /*background-image: -webkit-linear-gradient( left, @primary-background, #000, @primary-background);
-	-moz-animation: rainbowLine 5.5s forwards linear infinite;
-	-webkit-animation: rainbowLine 5.5s forwards linear infinite;
-	-o-animation: rainbowLine 5.5s forwards linear infinite;
-	animation: rainbowLine 5.5s forwards linear infinite;
-	background-size: 50% auto;*/
-    background-color: @primary-background;
-    height: 3px;
-    border: 0;
 }
 
 .light {
@@ -2783,17 +2780,13 @@ hr {
     overflow-y: auto;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    // display: inline-block;
-    vertical-align: middle;
-} // small *{
-//     font-size:10px !important;
-// }
+
+/*
+small * {
+    font-size:10px !important;
+}
+*/
+
 .cursor-pointer {
     cursor: pointer!important;
 }
