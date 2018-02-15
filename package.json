@@ -19,7 +19,8 @@
     "prepublishOnly": "rimraf ./dist && tsc --declaration",
     "tsc": "tsc",
     "build": "webpack --config webpack.config.js --progress",
-    "watch": "webpack --config webpack.config.js --watch --progress"
+    "watch": "webpack --config webpack.config.js --watch --progress",
+    "watch-link": "tsc --watch --declaration"
   },
   "dependencies": {
     "classnames": "2.2.5",
