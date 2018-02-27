@@ -107,7 +107,7 @@ export default class App extends React.Component<any, any> {
                   <Button simple onClick={this.toggleDocs.bind(this)} right icon="download" className="mr5"></Button>
                   <Button simple onClick={this.toggleNightMode.bind(this)} right icon="moon-o"></Button>
                 </Toolbar>
-                <hr />
+                <hr className="hr" />
               </Layer>
             </SlideIn>
             <Layer fill overflow className="ps5 pt50 z4">
